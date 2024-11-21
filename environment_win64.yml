@@ -1,5 +1,5 @@
 # Xavier Bresson
-# conda env create -f environment.yml
+# conda env create -f environment_win64.yml
 # conda activate gnn_course
 # note: It took 10 min to install the environment
 
