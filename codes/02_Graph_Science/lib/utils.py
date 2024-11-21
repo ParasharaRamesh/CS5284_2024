@@ -39,17 +39,18 @@ def reindex_W_with_classes(W,C):
     n = C.shape[0] # nb of vertices
     nc = len(np.unique(C)) # nb of communities
     reindexing_mapping = np.zeros([n]) # mapping for reindexing W
-    reindexed_C = np.zeros([n]) # reindexed C
+    reindexed_C = np.zeros([n]) # reindexed C (each cluster k will come continuously for Nk times and then the next one)
     tot = 0
     for k in range(nc):
-        cluster = (np.where(C==k))[0]
-        length_cluster = len(cluster)
-        x = np.array(range(tot,tot+length_cluster))
-        reindexing_mapping[cluster] = x
-        reindexed_C[x] = k
-        tot += length_cluster
+        cluster = (np.where(C==k))[0] #all the indexes where the cluster value is k (dim Nk)
+        length_cluster = len(cluster) #Nk
+        x = np.array(range(tot,tot+length_cluster)) #Nk such numbers
+        reindexing_mapping[cluster] = x #for each of those indexes where cluster value is k, assign one-to-one the value of x
+        #NOTE: reindexing_mapping is just a list where there are totally 0-> Sigma_k(Nk)-1 numbers. Just that they are jumbled up based on where that cluster appeared originally in "C". Since we have all these numbers, its easier to create a csr matrix in 2d form from that later on!
+        reindexed_C[x] = k # here just assign which class/cluster lavel it is
+        tot += length_cluster #so that the next time x can get a different Nk numbers
         
-    idx_row,idx_col,val = scipy.sparse.find(W)
+    idx_row,idx_col,val = scipy.sparse.find(W) #all the ndarrays where there are values
     idx_row = reindexing_mapping[idx_row]
     idx_col = reindexing_mapping[idx_col]
     reindexed_W = scipy.sparse.csr_matrix((val, (idx_row, idx_col)), shape=(n, n))
@@ -322,6 +323,7 @@ def compute_ncut(W, Cgt, R):
 #   W = Adjacency matrix. Size = n x n.
 ######################################
 
+#TODO.note
 def construct_knn_graph(X,k,dist):
     
     n = X.shape[0]    

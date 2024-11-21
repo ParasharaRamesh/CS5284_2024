@@ -585,7 +585,7 @@ def compute_pca(X,nb_pca):
 #   C_kmeans = Computed kmeans clusters. Size = n x 1.
 #   En_kmeans = Energy of the kmeans partition.
 ######################################
-
+#TODO.note
 def compute_kernel_kmeans_EM(nc,Ker,Theta,nb_trials):
 
     start = time.time()
@@ -662,7 +662,7 @@ def compute_kernel_kmeans_EM(nc,Ker,Theta,nb_trials):
 #   C_kmeans = Computed kmeans clusters. Size = n x 1.
 #   En_kmeans = Energy of the kmeans partition.
 ######################################
-
+#TODO.note
 def compute_kernel_kmeans_spectral(nc,Ker,Theta):
 
 
